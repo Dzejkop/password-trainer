@@ -1,0 +1,11 @@
+{
+  "name": "password-trainer",
+  "version": "1.0.0",
+  "description": "Simple terminal password trainer",
+  "main": "./build/index.js",
+  "author": "Dzejkop",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.0.3"
+  }
+}
