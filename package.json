@@ -5,7 +5,19 @@
   "main": "./build/index.js",
   "author": "Dzejkop",
   "license": "MIT",
+  "scripts": {
+    "build:w": "tsc -w",
+    "build": "tsc",
+    "start": "node build/index.js"
+  },
   "devDependencies": {
+    "tslint-config-airbnb": "^5.10.0",
     "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "@types/blessed": "^0.1.10",
+    "@types/read": "^0.0.28",
+    "blessed": "^0.1.81",
+    "read": "^1.0.7"
   }
 }
