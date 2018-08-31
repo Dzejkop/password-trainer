@@ -2,8 +2,6 @@ import * as blessed from "blessed";
 import { Trainer } from "./trainer/trainer";
 import Exercise from "./trainer/exercises/exercise";
 
-const program = blessed.program();
-
 const screen = blessed.screen();
 
 const mainBox = blessed.box({
@@ -26,6 +24,7 @@ const mainContent = blessed.log({
     top: 1,
     height: "100%-5",
     align: "center",
+    tags: true,
 });
 
 const input = blessed.textbox({
@@ -35,9 +34,14 @@ const input = blessed.textbox({
     top: "100%-3",
 });
 
-input.key(["C-c", "escape"], (ch, key) => {
+
+const exitKeys = ["C-c", "escape"];
+function exit() {
     process.exit(0);
-});
+}
+
+input.key(exitKeys, exit);
+screen.key(exitKeys, exit);
 
 screen.render();
 
@@ -95,7 +99,7 @@ async function main() {
         const result = trainer.attemptExercise(answer, exercise);
 
         if (!result) {
-            mainContent.log(`Wrong: ${exercise.resultReport(answer)}`);
+            mainContent.log(`{bold}Wrong: ${exercise.resultReport(answer)}{/bold}`);
         }
 
         updateStatus(`${result ? "Good!" : "Wrong!"}` +

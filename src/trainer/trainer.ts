@@ -3,6 +3,7 @@ import FullExercise from "./exercises/full";
 import LastPartExercise from "./exercises/last";
 import SliceExercise from "./exercises/slice";
 import getRandomInt from "./utils/randomInt";
+import { stat } from "fs";
 
 export interface ITrainer {
     nextExercise() : Exercise;
@@ -40,15 +41,19 @@ export class Trainer implements ITrainer {
     }
 
     private getAvailableExercises() {
-        const count = this.attempts.length;
+        if (this.status().totalAttempts < 3) {
+            return [ FullExercise ];
+        }
 
-        if (count > 10) {
+        const profficency = this.profficency();
+
+        if (profficency > 0.7) {
             return [
                 FullExercise,
                 LastPartExercise,
                 SliceExercise
             ];
-        } else if (count > 5) {
+        } else if (profficency > 0.5) {
             return [
                 FullExercise,
                 LastPartExercise,
@@ -56,6 +61,15 @@ export class Trainer implements ITrainer {
         }
 
         return [ FullExercise ];
+    }
+
+    private profficency() : number {
+        const status = this.status();
+        if (status.totalAttempts === 0) {
+            return 0;
+        }
+
+        return status.succesfulAttempts / status.totalAttempts;
     }
 
     attemptExercise(answer: string, exercise: Exercise): boolean {
